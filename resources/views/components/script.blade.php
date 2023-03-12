@@ -128,7 +128,7 @@
 				if(data['success']){
 					for(i in data['success']){
 						
-						htmlData += '<div class="my-2 shadow text-white bg-dark p-1" id="removeconnection_row_hide_'+data['success'][i].id+'"><div class="d-flex justify-content-between"><table class="ms-1"><td class="align-middle">'+data['success'][i].name+'</td><td class="align-middle"> - </td><td class="align-middle">'+data['success'][i].email+'</td><td class="align-middle"></table><div><button style="width: 220px" id="get_connections_in_common_" class="btn btn-primary" type="button"data-bs-toggle="collapse" data-bs-target="#collapse_" aria-expanded="false" aria-controls="collapseExample">Connections in common ()</button><button id="create_request_btn_" class="btn btn-danger me-1" onclick="removeConnect(`'+data['success'][i].id+'`)">Remove Connection</button></div></div></div>';
+						htmlData += '<div class="my-2 shadow text-white bg-dark p-1" id="removeconnection_row_hide_'+data['success'][i].id+'"><div class="d-flex justify-content-between"><table class="ms-1"><td class="align-middle">'+data['success'][i].name+'</td><td class="align-middle"> - </td><td class="align-middle">'+data['success'][i].email+'</td><td class="align-middle"></table><div><button id="create_request_btn_" class="btn btn-danger me-1" onclick="removeConnect(`'+data['success'][i].id+'`)">Remove Connection</button></div></div></div>';
       					
 					}
 					$("#skeleton_toggle_connection").attr('class','d-none');
