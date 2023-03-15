@@ -156,7 +156,7 @@
 			success:function(data)
 			{	
 				var htmlData = '';
-				if(data['success']){
+				if(data['success'].length > 0){
 					for(i in data['success']){
 						console.log(data['success'][i].name)
 						htmlData += '<div class="p-2 shadow rounded mt-2  text-white bg-dark">'+data['success'][i].name+' - '+data['success'][i].email+'</div>';
@@ -165,6 +165,10 @@
 					
 					$(".common_connection_show_"+data['user'].id).html(htmlData);
 					
+				}else{
+					console.log('hye')
+					htmlData += '<div class="p-2 shadow rounded mt-2  text-white bg-dark">no mutual connection found</div>';
+					$(".common_connection_show_"+data['user'].id).html(htmlData);
 				}
 			}
 		})
