@@ -128,7 +128,7 @@
 				if(data['success']){
 					for(i in data['success']){
 						
-						htmlData += '<div class="my-2 shadow text-white bg-dark p-1" id="removeconnection_row_hide_'+data['success'][i].id+'"><div class="d-flex justify-content-between"><table class="ms-1"><td class="align-middle">'+data['success'][i].name+'</td><td class="align-middle"> - </td><td class="align-middle">'+data['success'][i].email+'</td><td class="align-middle"></table><div><button id="create_request_btn_" class="btn btn-danger me-1" onclick="removeConnect(`'+data['success'][i].id+'`)">Remove Connection</button></div></div></div>';
+						htmlData += '<div class="my-2 shadow text-white bg-dark p-1" id="removeconnection_row_hide_'+data['success'][i].id+'"><div class="d-flex justify-content-between"><table class="ms-1"><td class="align-middle">'+data['success'][i].name+'</td><td class="align-middle"> - </td><td class="align-middle">'+data['success'][i].email+'</td><td class="align-middle"></table><div><button style="width: 220px" id="get_connections_in_common_" class="btn btn-primary" type="button"data-bs-toggle="collapse" data-bs-target="#collapse_'+data['success'][i].id+'" aria-expanded="false" aria-controls="collapseExample" onclick="commonConnection(`'+data['success'][i].id+'`)">Connections in common</button><button id="create_request_btn_" class="btn btn-danger me-1" onclick="removeConnect(`'+data['success'][i].id+'`)">Remove Connection</button></div></div><div class="collapse" id="collapse_'+data['success'][i].id+'"><div id="content_'+data['success'][i].id+'" class="p-2 common_connection_show_'+data['success'][i].id+'"></div><div id="connections_in_common_skeletons_"></div><div class="d-flex justify-content-center w-100 py-2"></div></div></div>';
       					
 					}
 					$("#skeleton_toggle_connection").attr('class','d-none');
@@ -145,6 +145,28 @@
 			url : "{{url('remove_connect')}}",
 			type : 'get',
 			data : {connection_id : connection_id}
+		})
+	}
+	const commonConnection = (connection_id)=>{
+		var connection_id = connection_id;
+		$.ajax({
+			url : "{{url('/common_connection')}}",
+			type: 'get',
+			data : {connection_id : connection_id},
+			success:function(data)
+			{	
+				var htmlData = '';
+				if(data['success']){
+					for(i in data['success']){
+						console.log(data['success'][i].name)
+						htmlData += '<div class="p-2 shadow rounded mt-2  text-white bg-dark">'+data['success'][i].name+' - '+data['success'][i].email+'</div>';
+      					
+					}
+					
+					$(".common_connection_show_"+data['user'].id).html(htmlData);
+					
+				}
+			}
 		})
 	}
 </script>

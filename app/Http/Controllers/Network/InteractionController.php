@@ -30,6 +30,7 @@ class InteractionController extends Controller
         $userConnections = $user->recieveRequest()->where('status',1)->get()->merge($user->sentRequest()->where('status',1)->get());
 
         /*end*/
+        
         return view('home',compact('userSuggestions','sentRequests','recieveRequests','userConnections'));
     }
     /**
@@ -140,5 +141,50 @@ class InteractionController extends Controller
         if(isset($sender)){
             $sender->delete();
         }
+    }
+    /**
+     * common connection
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function commonConnection(Request $request)
+    {
+        /* connection of connection user*/
+        $user = User::where('id',$request->connection_id)->first();
+        $userConnections = $user->recieveRequest()->where('status',1)->get()->merge($user->sentRequest()->where('status',1)->get());
+        
+        $senderIds = array();
+        $recieverIds = array();
+        foreach ($userConnections as $key => $conn) {
+            $userIds[] = $conn['sender_user_id'];
+            $recieverIds[] = $conn['reciever_user_id'];
+        }
+        $userIds = array_merge($userIds,$recieverIds);
+        $userId = array($user->id);
+        $connectionsIds = array_diff($userIds, $userId);
+        //dd($connectionsIds);
+    
+        /* connection of auth user*/
+                
+        $connection = User::where('id',auth()->user()->id)->first();
+        
+        $ConnectionConnections = $connection->recieveRequest()->where('status',1)->get()->merge($connection->sentRequest()->where('status',1)->get());
+
+        $ConnectionSenderIds = array();
+        $ConnectionRecieverIds = array();
+        foreach ($ConnectionConnections as $key => $conn) {
+            $ConnectionSenderIds[] = $conn['sender_user_id'];
+            $ConnectionRecieverIds[] = $conn['reciever_user_id'];
+        }
+        $ConnectionUserIds = array_merge($ConnectionSenderIds,$ConnectionRecieverIds);
+        
+        $connectionUserId = array($connection->id);
+        $connectionConnectionsIds = array_diff($ConnectionUserIds, $connectionUserId);
+        
+        /*mutual connection*/
+        $mutual = array_intersect($connectionsIds , $connectionConnectionsIds);
+        $commonUsers = User::whereIn('id',$mutual)->get();
+        return response()->json(['success'=>$commonUsers,'user'=>$user]);
+        /*end*/
     }
 }

@@ -21,3 +21,4 @@ Route::get('/recieve_request',[InteractionController::class,'recieveRequest']);
 Route::get('/accept_connect',[InteractionController::class,'acceptConnect']);
 Route::get('/get_connection',[InteractionController::class,'getConnection']);
 Route::get('/remove_connect',[InteractionController::class,'removeConnect']);
+Route::get('/common_connection',[InteractionController::class,'commonConnection']);
